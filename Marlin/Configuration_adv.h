@@ -17,7 +17,7 @@
 // This waits for the watchperiod in milliseconds whenever an M104 or M109 increases the target temperature
 // If the temperature has not increased at the end of that period, the target temperature is set to zero. 
 // It can be reset with another M104/M109
-//#define WATCHPERIOD 20000 //20 seconds
+#define WATCHPERIOD 5000 //5 seconds
 
 // Wait for Cooldown
 // This defines if the M109 call should not block if it is cooling down.
@@ -64,7 +64,23 @@
 //===========================================================================
 
 // This defines the number of extruders
-#define EXTRUDERS 1
+#define EXTRUDERS 2
+
+  #define X_POS_EXTRUDER_0 0
+  #define Y_POS_EXTRUDER_0 0
+#ifdef EXTRUDERS >= 2
+  #define X_POS_EXTRUDER_1 22
+  #define Y_POS_EXTRUDER_1 0
+#endif
+#ifdef EXTRUDERS >= 3
+  #define X_POS_EXTRUDER_2 0
+  #define Y_POS_EXTRUDER_2 0
+#endif
+#ifdef EXTRUDERS >= 4
+  #define X_POS_EXTRUDER_3 0
+  #define Y_POS_EXTRUDER_3 0
+#endif
+
 
 #define ENDSTOPS_ONLY_FOR_HOMING // If defined the endstops will only be used for homing
 

@@ -35,6 +35,7 @@
 #include "cardreader.h"
 #include "watchdog.h"
 #include "EEPROMwrite.h"
+#include "Configuration_adv.h"
 
 #define VERSION_STRING  "1.0.0 RC1"
 
@@ -62,6 +63,7 @@
 // M114 - Display current position
 
 //Custom M Codes
+// M6   - Switches the printhead.
 // M17  - Enable/Power all stepper motors
 // M18  - Disable all stepper motors; same as M84
 // M20  - List SD card
@@ -655,6 +657,75 @@ void process_commands()
   {
     switch( (int)code_value() ) 
     {
+    case 6: //M6 - Automatically change printhead
+        LCD_MESSAGEPGM("Changing printhead...");
+      	if (code_seen('T'))
+	{
+           int wanted_extruder = code_value();
+	   if(wanted_extruder != active_extruder)
+	   {
+		int moveX = 0;
+                   int moveY = 0;
+                   switch(active_extruder)
+                   {
+                     case 0:
+                       moveX = X_POS_EXTRUDER_0;
+                       moveY = Y_POS_EXTRUDER_0;
+                       break;
+                     #ifdef EXTRUDERS >= 1
+                     case 1:
+                       moveX = X_POS_EXTRUDER_1;
+                       moveY = Y_POS_EXTRUDER_1;
+                       break;
+                     #endif
+                     #ifdef EXTRUDERS >= 2
+                     case 2:
+                       moveX = X_POS_EXTRUDER_2;
+                       moveY = Y_POS_EXTRUDER_2;
+                       break;
+                     #endif
+                     #ifdef EXTRUDERS >= 3
+                     case 3:
+                       moveX = X_POS_EXTRUDER_3;
+                       moveY = Y_POS_EXTRUDER_3;
+                       break;
+                     #endif
+                     }
+                   //Set position to 0.
+                   plan_set_position(current_position[X_AXIS]+moveX, current_position[Y_AXIS]+moveY, current_position[Z_AXIS], current_position[E_AXIS]);
+                   prepare_move();
+                   switch(wanted_extruder)
+                   {
+                     case 0:
+                       moveX = X_POS_EXTRUDER_0;
+                       moveY = Y_POS_EXTRUDER_0;
+                       break;
+                     #ifdef EXTRUDERS >= 1
+                     case 1:
+                       moveX = X_POS_EXTRUDER_1;
+                       moveY = Y_POS_EXTRUDER_1;
+                       break;
+                     #endif
+                     #ifdef EXTRUDERS >= 2
+                     case 2:
+                       moveX = X_POS_EXTRUDER_2;
+                       moveY = Y_POS_EXTRUDER_2;
+                       break;
+                     #endif
+                     #ifdef EXTRUDERS >= 3
+                     case 3:
+                       moveX = X_POS_EXTRUDER_3;
+                       moveY = Y_POS_EXTRUDER_3;
+                       break;
+                     #endif
+                   }
+                   plan_set_position(current_position[X_AXIS]-moveX, current_position[Y_AXIS]-moveY, current_position[Z_AXIS], current_position[E_AXIS]);
+                   prepare_move();
+		   active_extruder = wanted_extruder;
+	   }
+	}
+	break;
+    
     case 17:
         LCD_MESSAGEPGM("No move.");
         enable_x(); 
