@@ -661,6 +661,8 @@ void process_commands()
         LCD_MESSAGEPGM("Changing printhead...");
       	if (code_seen('T'))
 	{
+	   int curPosX = current_position[X_AXIS];
+           int curPosY = current_position[Y_AXIS];
            int wanted_extruder = code_value();
 	   if(wanted_extruder != active_extruder)
 	   {
@@ -723,6 +725,8 @@ void process_commands()
                    prepare_move();
 		   active_extruder = wanted_extruder;
 	   }
+	 current_position[X_AXIS] = curPosX;
+         current_position[Y_AXIS] = curPosY;
 	}
 	break;
     
