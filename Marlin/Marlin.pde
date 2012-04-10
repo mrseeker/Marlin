@@ -831,6 +831,68 @@ void process_commands()
         }
       }
      break;
+#ifdef ULTIPANEL    
+     case 72: //M72
+	if (code_seen('S'))
+	{
+            switch((int)code_value())
+	    {
+                case 0:
+		//..-. .. -. .. ... .... . -..
+                beepshort();
+		delay(3);		
+		beepshort();
+		delay(3);                
+		beep();
+                delay(3);
+		beepshort();
+                delay(15);
+                
+		beepshort();
+		delay(3);
+                beepshort();
+                delay(15);
+                
+		beep();
+		delay(3);
+                beepshort();
+		delay(15);
+		
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(15);
+		
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(15);
+
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(15);
+		
+		beepshort();
+		delay(15);
+
+		beep();
+		delay(3);
+		beepshort();
+		delay(3);
+		beepshort();
+		delay(15);
+		break;
+	    }
+	}
+     break;
+#endif
     case 104: // M104
       tmp_extruder = active_extruder;
       if(code_seen('T')) {
@@ -1072,7 +1134,7 @@ void process_commands()
       }
       break;
     case 115: // M115
-      SerialprintPGM("FIRMWARE_NAME:Marlin; Sprinter/grbl mashup for gen6 FIRMWARE_URL:http://www.mendel-parts.com PROTOCOL_VERSION:1.0 MACHINE_TYPE:Mendel EXTRUDER_COUNT:1\n");
+      SerialprintPGM("FIRMWARE_NAME:Marlin FIRMWARE_URL:http://firmware.ultimaker.com PROTOCOL_VERSION:1.0 MACHINE_TYPE:Ultimaker EXTRUDER_COUNT:1\n");
       break;
     case 117: // M117 display message
       LCD_MESSAGE(cmdbuffer[bufindr]+5);
