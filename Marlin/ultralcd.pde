@@ -131,11 +131,9 @@ void beep()
   //return;
   #ifdef ULTIPANEL
     pinMode(BEEPER,OUTPUT);
-    for(int8_t i=0;i<20;i++){
       WRITE(BEEPER,HIGH);
-      delay(5);
+      delay(200);
       WRITE(BEEPER,LOW);
-      delay(5);
     }
   #endif
 }
@@ -145,11 +143,9 @@ void beepshort()
   //return;
   #ifdef ULTIPANEL
     pinMode(BEEPER,OUTPUT);
-    for(int8_t i=0;i<10;i++){
       WRITE(BEEPER,HIGH);
-      delay(3);
+      delay(50);
       WRITE(BEEPER,LOW);
-      delay(3);
     }
   #endif  
 }
